@@ -18,7 +18,7 @@ class TestUserListTestCase(APITestCase):
 
     def setUp(self):
         self.url = reverse('user-list')
-        self.user_data = model_to_dict(UserFactory.build(), exclude=['last_login'])
+        self.user_data = model_to_dict(UserFactory.build(), exclude=['id', 'last_login'])
 
     def test_post_request_with_no_data_fails(self):
         response = self.client.post(self.url, {})
@@ -43,7 +43,7 @@ class TestUserDetailTestCase(APITestCase):
         password = 'password'
         self.user = User.objects.create_user(email, password)
         url_auth = reverse('api-token-auth')
-        resp_auth = self.client.post(url_auth, {'email':email, 'password':password}, format='json')
+        resp_auth = self.client.post(url_auth, {'email': email, 'password': password}, format='json')
         token = resp_auth.data['token']
         self.url = reverse('user-detail', kwargs={'pk': self.user.pk})
         self.client.credentials(HTTP_AUTHORIZATION=f'JWT {token}')
