@@ -28,6 +28,7 @@ class Common(Configuration):
         'framework.users',
         'framework.posts',
         'framework.todos',
+        'framework.albums',
 
     )
 

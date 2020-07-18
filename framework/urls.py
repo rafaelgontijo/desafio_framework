@@ -11,13 +11,15 @@ from .docs.views import schema_view
 from .users.views import UserViewSet, UserListCreateViewSet
 from .posts.views import PostViewSet
 from .todos.views import TodoViewSet
+from .albums.views import AlbumViewSet
 
 
 router = DefaultRouter()
-router.register(r'users', UserViewSet)
-router.register(r'users', UserListCreateViewSet)
+router.register(r'albums', AlbumViewSet)
 router.register(r'posts', PostViewSet)
 router.register(r'todos', TodoViewSet)
+router.register(r'users', UserViewSet)
+router.register(r'users', UserListCreateViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
