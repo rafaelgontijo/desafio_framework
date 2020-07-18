@@ -1,0 +1,12 @@
+# PRECAUTION: avoid production dependencies that aren't in development
+
+-r ./base.txt
+
+# Django
+# ------------------------------------------------------------------------------
+gunicorn==20.0.4
+
+# Static and Media Storage
+# ------------------------------------------------------------------------------
+django-storages==1.9.1
+boto3==1.12.39 

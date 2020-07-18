@@ -1,0 +1,13 @@
+# General
+# ------------------------------------------------------------------------------
+DEBUG=True
+SECRET_KEY=dev
+DJANGO_CONFIGURATION=Local
+
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=framework
+POSTGRES_USER=framework
+POSTGRES_PASSWORD=secret

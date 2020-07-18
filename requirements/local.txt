@@ -1,0 +1,15 @@
+-r ./base.txt
+
+# Testing
+mock==4.0.2
+factory-boy==2.12.0
+Faker==4.1.1
+django-nose==1.4.6
+nose-progressive==1.5.2
+coverage==5.2
+
+# Debug
+ptvsd==4.3.2
+
+# Linter
+flake8==3.8.3
