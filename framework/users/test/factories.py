@@ -11,5 +11,6 @@ class UserFactory(factory.django.DjangoModelFactory):
     password = factory.Faker('password', length=10, special_chars=True, digits=True,
                              upper_case=True, lower_case=True)
     name = factory.Faker('name')
+    username = factory.Faker('name')
     is_active = True
     is_staff = False

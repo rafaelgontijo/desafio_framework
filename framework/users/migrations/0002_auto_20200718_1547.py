@@ -2,26 +2,25 @@
 
 from django.contrib.auth import get_user_model
 from django.db import migrations
-from faker import Factory
+import requests
 
-faker = Factory.create()
 
 def create_users(apps, schema_editor):
     User = get_user_model()
-    users = []
 
-    User.objects.create_superuser(
-        name="Desafio",
-        email="desafio@frwk.com.br",
-        password="12345"
-    )
+    url = "https://jsonplaceholder.typicode.com/users"
+    response = requests.get(url)
+    api_users = response.json()
 
-    for index in range(0, 9):
-        users.append(User.objects.create_user(
-            name=faker.name(),
-            email=faker.email(),
+    for user in api_users:
+        User.objects.create_user(
+            name=user.get("name"),
+            email=user.get("email"),
+            username=user.get("username"),
+            phone=user.get("phone"),
+            website=user.get("website"),
             password="12345"
-        ))
+        )
 
 
 class Migration(migrations.Migration):

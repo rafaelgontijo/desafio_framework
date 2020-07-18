@@ -1,8 +1,11 @@
+from django.forms.models import model_to_dict
 from django_filters import rest_framework as filters
-from rest_framework import viewsets
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from .models import Post
-from .serializers import PostSerializer
+from .serializers import CommentSerializer, PostSerializer
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -11,8 +14,6 @@ class PostViewSet(viewsets.ModelViewSet):
     """
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    lookup_field = 'slug'
-    lookup_url_kwarg = 'slug'
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_fields = {
         'author': ('exact',),
@@ -20,3 +21,13 @@ class PostViewSet(viewsets.ModelViewSet):
         'creation_date': ('exact', 'lt', 'gt', 'lte', 'gte'),
         'title': ('icontains',),
     }
+
+    @action(detail=True, methods=['post'])
+    def add_comment(self, request, pk=None):
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid():
+            comment = serializer.save(post_id=pk)
+            return Response(model_to_dict(comment))
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)

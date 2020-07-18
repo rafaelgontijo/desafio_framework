@@ -25,3 +25,18 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
+    body = models.TextField(verbose_name=_("body"))
+    creation_date = models.DateTimeField(_('creation_date'), auto_now_add=True)
+    email = models.EmailField(verbose_name=_("email"))
+    name = models.CharField(verbose_name=_("name"), max_length=200)
+
+    class Meta:
+        verbose_name = _('comment')
+        verbose_name_plural = _('comments')
+
+    def __str__(self):
+        return self.email

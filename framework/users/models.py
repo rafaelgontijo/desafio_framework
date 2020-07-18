@@ -47,6 +47,8 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(_('name'), max_length=150)
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
+    phone = models.CharField(_('phone'), max_length=50, blank=True, null=True)
+    website = models.CharField(_('website'), max_length=100, blank=True, null=True)
 
     email = models.EmailField(
         _('email'),
@@ -71,6 +73,15 @@ class User(AbstractBaseUser, PermissionsMixin):
             'Designates whether this user should be treated as active. '
             'Unselect this instead of deleting accounts.'
         ),
+    )
+
+    username = models.CharField(
+        _('user name'),
+        max_length=150,
+        unique=True,
+        error_messages={
+            'unique': _("A user with that username already exists."),
+        },
     )
 
     objects = UserManager()

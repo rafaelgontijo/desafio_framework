@@ -68,7 +68,7 @@ class Common(Configuration):
     }
 
     # General
-    APPEND_SLASH = False
+    APPEND_SLASH = True
     TIME_ZONE = config('TIME_ZONE', default='America/Sao_Paulo')
     LANGUAGES = (
         ('pt-br', u'Português'),
