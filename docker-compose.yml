@@ -1,9 +1,8 @@
-version: '3'
+version: "3"
 
 volumes:
   postgres_data: {}
   postgres_data_backups: {}
-
 
 services:
   django:
@@ -33,4 +32,12 @@ services:
     env_file:
       - ./.envs/.local
 
-
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../docker/frontend/Dockerfile
+      args:
+        FRONTEND_ENV: dev
+    image: framework_frontend
+    ports:
+      - "80:80"

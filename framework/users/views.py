@@ -1,6 +1,9 @@
 from django_filters import rest_framework as filters
-from rest_framework import viewsets, mixins
+from rest_framework import mixins, viewsets
+from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+
 from .models import User
 from .permissions import IsUserOrReadOnly
 from .serializers import CreateUserSerializer, UserSerializer
@@ -16,10 +19,15 @@ class UserViewSet(mixins.RetrieveModelMixin,
     serializer_class = UserSerializer
     permission_classes = (IsUserOrReadOnly,)
 
+    @action(detail=False, methods=['get'])
+    def me(self, request, pk=None):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
+
 
 class UserListCreateViewSet(mixins.CreateModelMixin,
-                        mixins.ListModelMixin,
-                        viewsets.GenericViewSet):
+                            mixins.ListModelMixin,
+                            viewsets.GenericViewSet):
     """
     List and creates user accounts
     """
@@ -31,4 +39,3 @@ class UserListCreateViewSet(mixins.CreateModelMixin,
         'name': ('icontains',),
         'email': ('icontains',),
     }
-

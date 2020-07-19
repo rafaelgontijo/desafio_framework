@@ -17,3 +17,8 @@ class TodoViewSet(viewsets.ModelViewSet):
         'owner': ('exact',),
         'title': ('icontains',),
     }
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(owner=self.request.user)
+        return queryset

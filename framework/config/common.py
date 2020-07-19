@@ -36,6 +36,7 @@ class Common(Configuration):
     MIDDLEWARE = (
         'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
+        'corsheaders.middleware.CorsMiddleware',
         'django.middleware.common.CommonMiddleware',
         'django.middleware.csrf.CsrfViewMiddleware',
         'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -205,8 +206,6 @@ class Common(Configuration):
 
     # Django Rest Framework
     REST_FRAMEWORK = {
-        'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-        'PAGE_SIZE': config('DJANGO_PAGINATION_LIMIT', default=10, cast=int),
         'DATETIME_FORMAT': '%d/%m/%YT%H:%M:%S%z',
         'DATETIME_INPUT_FORMATS': ['%d/%m/%YT%H:%M:%S%z'],
         'DATE_INPUT_FORMATS': ['%d/%m/%Y'],
