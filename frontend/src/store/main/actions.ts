@@ -57,28 +57,6 @@ export const actions = {
       await dispatchCheckApiError(context, error);
     }
   },
-  async actionUpdateUserProfile(context: MainContext, payload) {
-    try {
-      const loadingNotification = { content: "saving", showProgress: true };
-      commitAddNotification(context, loadingNotification);
-      const response = (
-        await Promise.all([
-          api.updateMe(context.state.token, payload),
-          await new Promise((resolve, reject) =>
-            setTimeout(() => resolve(), 500)
-          ),
-        ])
-      )[0];
-      commitSetUserProfile(context, response.data);
-      commitRemoveNotification(context, loadingNotification);
-      commitAddNotification(context, {
-        content: "Profile successfully updated",
-        color: "success",
-      });
-    } catch (error) {
-      await dispatchCheckApiError(context, error);
-    }
-  },
   async actionCheckLoggedIn(context: MainContext) {
     if (!context.state.isLoggedIn) {
       let token = context.state.token;
@@ -144,67 +122,6 @@ export const actions = {
       }, payload.timeout);
     });
   },
-  async passwordRecovery(context: MainContext, payload: { username: string }) {
-    const loadingNotification = {
-      content: "Sending password recovery email",
-      showProgress: true,
-    };
-    try {
-      commitAddNotification(context, loadingNotification);
-      const response = (
-        await Promise.all([
-          api.passwordRecovery(payload.username),
-          await new Promise((resolve, reject) =>
-            setTimeout(() => resolve(), 500)
-          ),
-        ])
-      )[0];
-      commitRemoveNotification(context, loadingNotification);
-      commitAddNotification(context, {
-        content: "Password recovery email sent",
-        color: "success",
-      });
-      await dispatchLogOut(context);
-    } catch (error) {
-      commitRemoveNotification(context, loadingNotification);
-      commitAddNotification(context, {
-        color: "error",
-        content: "Incorrect username",
-      });
-    }
-  },
-  async resetPassword(
-    context: MainContext,
-    payload: { password: string; token: string }
-  ) {
-    const loadingNotification = {
-      content: "Resetting password",
-      showProgress: true,
-    };
-    try {
-      commitAddNotification(context, loadingNotification);
-      const response = (
-        await Promise.all([
-          api.resetPassword(payload.password, payload.token),
-          await new Promise((resolve, reject) =>
-            setTimeout(() => resolve(), 500)
-          ),
-        ])
-      )[0];
-      commitRemoveNotification(context, loadingNotification);
-      commitAddNotification(context, {
-        content: "Password successfully reset",
-        color: "success",
-      });
-      await dispatchLogOut(context);
-    } catch (error) {
-      commitRemoveNotification(context, loadingNotification);
-      commitAddNotification(context, {
-        color: "error",
-        content: "Error resetting password",
-      });
-    }
-  },
 };
 
 const { dispatch } = getStoreAccessors<MainState | any, State>("");
@@ -218,9 +135,4 @@ export const dispatchUserLogOut = dispatch(actions.actionUserLogOut);
 export const dispatchRemoveLogIn = dispatch(actions.actionRemoveLogIn);
 export const dispatchRouteLoggedIn = dispatch(actions.actionRouteLoggedIn);
 export const dispatchRouteLogOut = dispatch(actions.actionRouteLogOut);
-export const dispatchUpdateUserProfile = dispatch(
-  actions.actionUpdateUserProfile
-);
 export const dispatchRemoveNotification = dispatch(actions.removeNotification);
-export const dispatchPasswordRecovery = dispatch(actions.passwordRecovery);
-export const dispatchResetPassword = dispatch(actions.resetPassword);

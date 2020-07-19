@@ -27,5 +27,11 @@ make help
 
 ### Ambiente de desenvolvimento
 
-Ao rodar o comando para iniciar o ambiente de desenvolvimento, você terá a api disponível na url: http://localhost:8000/api/v1/.
-Juntamente com isso você tem um ambiente de debug remoto rodando na porta "5678", podendo ser usado no Vscode.
+Ao rodar o comando para iniciar o ambiente de desenvolvimento, você terá disponível:
+ - Uma api na url: http://localhost:8000/api/v1/
+ - Uma documentação da api na url: http://localhost:8000/doc/
+ - Uma app frontend consumindo da api na url: http://localhost/
+
+#### Dados de acesso
+
+Ao iniciar a aplicação são criados todos usuários que estão nesta url: https://jsonplaceholder.typicode.com/users, sendo o login o email e a senha 12345
